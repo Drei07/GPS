@@ -1,6 +1,6 @@
 <?php
 
-$proxyServerUrl = 'https://servify.cloud/dashboard/admin/controller/gps.php'; // Replace with your proxy server URL
+$proxyServerUrl = 'https://r3garagerental.online/gps.php'; // Replace with your proxy server URL
 
 
 $response = file_get_contents($proxyServerUrl);
