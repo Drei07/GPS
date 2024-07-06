@@ -24,6 +24,3 @@ if ($response !== false) {
 
 
 ?>
-
-
-DOLORES D. MALLARI, Ph.D
