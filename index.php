@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPS Devices Data</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBi9k2sD9U73vNtPPqi0ktod1rb4vHYruU"></script> <!-- Replace with your Google Maps API key -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDg7pLs7iesp74vQ-KSEjnFJW3BKhVq7k"></script> <!-- Replace with your Google Maps API key -->
 </head>
 <body>
     <h2>GPS Devices Data</h2>
