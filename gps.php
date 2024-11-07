@@ -1,4 +1,6 @@
 <?php
+
+
 // Directory to store the latest GPS data for each device
 $dataDir = 'gps_data/';
 $timeoutDuration = 60; // 1 minute timeout duration
