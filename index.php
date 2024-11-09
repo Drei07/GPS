@@ -12,7 +12,6 @@
     
     <div id="gpsDataContainer"></div>
     
-    <!-- Separate map divs for each GPS device -->
     <h3>Map for GPS01</h3>
     <div id="map_gps01" style="height: 500px; width: 100%;"></div>
     
@@ -20,12 +19,10 @@
     <div id="map_gps02" style="height: 500px; width: 100%;"></div>
 
     <script>
-        // Initialize map objects for each GPS device
         var map_gps01, map_gps02;
         var markers = {}; // Store markers by device ID
 
         $(document).ready(function() {
-            // Initialize Google Maps for each device
             function initMaps() {
                 map_gps01 = new google.maps.Map(document.getElementById('map_gps01'), {
                     center: {lat: 0, lng: 0},
@@ -38,32 +35,28 @@
                 });
             }
 
-            // Fetch and display GPS data
             function fetchGPSData() {
                 $.ajax({
-                    url: 'controller.php', // Replace with your actual PHP script
+                    url: 'controller.php',
                     type: 'GET',
                     dataType: 'json',
                     success: function(data) {
-                        $('#gpsDataContainer').empty(); // Clear existing data
+                        $('#gpsDataContainer').empty();
 
                         $.each(data, function(index, device) {
                             var deviceData = '<div>' +
                                 '<p><strong>Device ID:</strong> ' + (device.gps_id || 'N/A') + '</p>' +
-                                '<p><strong>Latitude:</strong> ' + (device.latitude || 0.0) + '</p>' +
-                                '<p><strong>Longitude:</strong> ' + (device.longitude || 0.0) + '</p>' +
+       
                                 '<p><strong>Speed:</strong> ' + (device.speed || 0.0) + '</p>' +
                                 '<p><strong>Satellites:</strong> ' + (device.satellites || 0) + '</p>' +
-                                '<p><strong>GPS Status:</strong> ' + (device.gps_status || 'No Signal') + '</p>' +
                                 '<p><strong>Timestamp:</strong> ' + (device.timestamp ? new Date(device.timestamp * 1000).toLocaleString() : 'N/A') + '</p>' +
+                                '<p><strong>Street:</strong> <span id="street_' + device.gps_id + '">Loading...</span></p>' +
                                 '</div><hr>';
 
                             $('#gpsDataContainer').append(deviceData);
 
                             if (device.latitude && device.longitude) {
                                 var position = {lat: parseFloat(device.latitude), lng: parseFloat(device.longitude)};
-
-                                // Determine the correct map and update marker based on device ID
                                 var map = device.gps_id === 'GPS01' ? map_gps01 : map_gps02;
 
                                 if (markers[device.gps_id]) {
@@ -82,6 +75,9 @@
                                     markers[device.gps_id] = marker;
                                     map.setCenter(position);
                                 }
+
+                                // Get and display the street name
+                                getStreetName(position, device.gps_id);
                             }
                         });
                     },
@@ -91,21 +87,29 @@
                 });
             }
 
-            // Initialize the maps
+            function getStreetName(position, gps_id) {
+                var geocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + position.lat + ',' + position.lng + '&key=AIzaSyCDg7pLs7iesp74vQ-KSEjnFJW3BKhVq7k';
+
+                $.getJSON(geocodeUrl, function(response) {
+                    var street = 'Unavailable';
+                    if (response.status === 'OK' && response.results.length > 0) {
+                        street = response.results[0].formatted_address;
+                    }
+                    $('#street_' + gps_id).text(street);
+                }).fail(function() {
+                    $('#street_' + gps_id).text('Unavailable');
+                });
+            }
+
             initMaps();
-
-            // Fetch GPS data initially
             fetchGPSData();
-
-            // Set intervals for fetching and storing data
             setInterval(fetchGPSData, 2000);
             setInterval(fetchAndStoreGPSData, 2000);
         });
 
-        // Function to store GPS data in the database
         function fetchAndStoreGPSData() {
             $.ajax({
-                url: 'store_gps_data.php', // Update to the new PHP script
+                url: 'store_gps_data.php',
                 type: 'GET',
                 dataType: 'json',
                 success: function(response) {

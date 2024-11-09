@@ -1,7 +1,7 @@
 <?php
 
 // Path to the file containing the GPS log (replace with your actual file path)
-$filepath = 'GPS02_LOG_VIOS_NOVEMBER_07.json';
+$filepath = 'GPS02_LOG_VIOS_NOVEMBER_08.json';
 
 // Read the file and get the contents
 $gps_log = file($filepath, FILE_IGNORE_NEW_LINES);
