@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Proxy server URL
-$proxyServerUrl = 'https://r3garagerental.online/gps.php'; // Replace with your proxy server URL
+$proxyServerUrl = 'https://aquasense.online/dashboard/admin/controller/gps.php'; // Replace with your proxy server URL
 
 // Database connection parameters
 $host = 'localhost';
